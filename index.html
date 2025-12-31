@@ -20,40 +20,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -113,36 +79,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reactable)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Load data (recommended)</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>owner_sum_debug <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"owner_sum_debug.rds"</span>)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>tbl <span class="ot">&lt;-</span> owner_sum_debug <span class="sc">%&gt;%</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    Owner, avg_rank, adj_avg_rank,</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    titles, five_set_wins, grass_wins,</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    aces_per_service_point, dfs_per_service_point,</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    bagels_surrendered,</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    adj_titles, adj_five_set, adj_grass,</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    adj_aces, adj_bagels, adj_dfs, adj</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(adj_avg_rank)</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="fu">reactable</span>(</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  tbl,</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">searchable =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">defaultSorted =</span> <span class="st">"adj_avg_rank"</span>,</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">defaultSortOrder =</span> <span class="st">"asc"</span>,</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">pagination =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">highlight =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">bordered =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">striped =</span> <span class="cn">TRUE</span></span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="reactable html-widget html-fill-item" id="htmlwidget-648dc8512dae0f8029c0" style="width:auto;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-648dc8512dae0f8029c0">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Owner":["Kev","Ben","Austin","Nick"],"avg_rank":[37,41.5,42,43.6666666666667],"adj_avg_rank":[34,40.5,42,43.6666666666667],"titles":[9,9,4,6],"five_set_wins":[3,0,5,4],"grass_wins":[33,20,10,25],"aces_per_service_point":[0.0828776978417266,0.0996274759222242,0.108608567691302,0.131358214697961],"dfs_per_service_point":[0.0316906474820144,0.0280301653643467,0.0354398299542184,0.044978838014621],"bagels_surrendered":[3,3,5,2],"adj_titles":[-1,-1,-0,-0],"adj_five_set":[-0,-0,-2,-0],"adj_grass":[-2,-0,-0,-0],"adj_aces":[-0,-0,-0,-2],"adj_bagels":[0,0,2,0],"adj_dfs":[0,0,0,2],"adj":[-3,-1,0,0]},"columns":[{"id":"Owner","name":"Owner","type":"character"},{"id":"avg_rank","name":"avg_rank","type":"numeric"},{"id":"adj_avg_rank","name":"adj_avg_rank","type":"numeric"},{"id":"titles","name":"titles","type":"numeric"},{"id":"five_set_wins","name":"five_set_wins","type":"numeric"},{"id":"grass_wins","name":"grass_wins","type":"numeric"},{"id":"aces_per_service_point","name":"aces_per_service_point","type":"numeric"},{"id":"dfs_per_service_point","name":"dfs_per_service_point","type":"numeric"},{"id":"bagels_surrendered","name":"bagels_surrendered","type":"numeric"},{"id":"adj_titles","name":"adj_titles","type":"numeric"},{"id":"adj_five_set","name":"adj_five_set","type":"numeric"},{"id":"adj_grass","name":"adj_grass","type":"numeric"},{"id":"adj_aces","name":"adj_aces","type":"numeric"},{"id":"adj_bagels","name":"adj_bagels","type":"numeric"},{"id":"adj_dfs","name":"adj_dfs","type":"numeric"},{"id":"adj","name":"adj","type":"numeric"}],"searchable":true,"defaultSorted":[{"id":"adj_avg_rank","desc":false}],"highlight":true,"bordered":true,"striped":true,"dataKey":"f6d23bca57dd0c6bcdc16da65caa4e39"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+<div class="reactable html-widget html-fill-item" id="htmlwidget-a01091094951eb5a9d0f" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-a01091094951eb5a9d0f">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Owner":["Kev","Ben","Austin","Nick"],"avg_rank":[37,41.5,42,43.6666666666667],"adj_avg_rank":[34,40.5,42,43.6666666666667],"titles":[9,9,4,6],"five_set_wins":[3,0,5,4],"grass_wins":[33,20,10,25],"aces_per_service_point":[0.0828776978417266,0.0996274759222242,0.108608567691302,0.131358214697961],"dfs_per_service_point":[0.0316906474820144,0.0280301653643467,0.0354398299542184,0.044978838014621],"bagels_surrendered":[3,3,5,2],"adj_titles":[-1,-1,-0,-0],"adj_five_set":[-0,-0,-2,-0],"adj_grass":[-2,-0,-0,-0],"adj_aces":[-0,-0,-0,-2],"adj_bagels":[0,0,2,0],"adj_dfs":[0,0,0,2],"adj":[-3,-1,0,0]},"columns":[{"id":"Owner","name":"Owner","type":"character"},{"id":"avg_rank","name":"avg_rank","type":"numeric"},{"id":"adj_avg_rank","name":"adj_avg_rank","type":"numeric"},{"id":"titles","name":"titles","type":"numeric"},{"id":"five_set_wins","name":"five_set_wins","type":"numeric"},{"id":"grass_wins","name":"grass_wins","type":"numeric"},{"id":"aces_per_service_point","name":"aces_per_service_point","type":"numeric"},{"id":"dfs_per_service_point","name":"dfs_per_service_point","type":"numeric"},{"id":"bagels_surrendered","name":"bagels_surrendered","type":"numeric"},{"id":"adj_titles","name":"adj_titles","type":"numeric"},{"id":"adj_five_set","name":"adj_five_set","type":"numeric"},{"id":"adj_grass","name":"adj_grass","type":"numeric"},{"id":"adj_aces","name":"adj_aces","type":"numeric"},{"id":"adj_bagels","name":"adj_bagels","type":"numeric"},{"id":"adj_dfs","name":"adj_dfs","type":"numeric"},{"id":"adj","name":"adj","type":"numeric"}],"searchable":true,"defaultSorted":[{"id":"adj_avg_rank","desc":false}],"highlight":true,"bordered":true,"striped":true,"dataKey":"f6d23bca57dd0c6bcdc16da65caa4e39"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 

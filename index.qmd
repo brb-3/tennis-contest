@@ -1,0 +1,43 @@
+---
+title: "Owner Leaderboard"
+format:
+  html:
+    theme: cosmo
+    toc: false
+page-layout: full
+execute-dir: project
+---
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+
+library(dplyr)
+library(reactable)
+
+# Load data
+owner_sum_debug <- readRDS("owner_sum_debug.rds")
+
+tbl <- owner_sum_debug %>%
+  select(
+    Owner, avg_rank, adj_avg_rank,
+    titles, five_set_wins, grass_wins,
+    aces_per_service_point, dfs_per_service_point,
+    bagels_surrendered,
+    adj_titles, adj_five_set, adj_grass,
+    adj_aces, adj_bagels, adj_dfs, adj
+  ) %>%
+  arrange(adj_avg_rank)
+
+reactable(
+  tbl,
+  searchable = TRUE,
+  defaultSorted = "adj_avg_rank",
+  defaultSortOrder = "asc",
+  pagination = TRUE,
+  highlight = TRUE,
+  bordered = TRUE,
+  striped = TRUE
+)
+```
