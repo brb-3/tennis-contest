@@ -15,29 +15,93 @@ execute-dir: project
 
 library(dplyr)
 library(reactable)
+library(bslib)
 
-# Load data
-owner_sum_debug <- readRDS("owner_sum_debug.rds")
+owner_sum_debug <- readRDS('owner_sum_debug.rds')
 
-tbl <- owner_sum_debug %>%
-  select(
-    Owner, avg_rank, adj_avg_rank,
-    titles, five_set_wins, grass_wins,
-    aces_per_service_point, dfs_per_service_point,
-    bagels_surrendered,
-    adj_titles, adj_five_set, adj_grass,
-    adj_aces, adj_bagels, adj_dfs, adj
+# --- Top leaderboard summary ---
+summary_tbl <- owner_sum_debug %>%
+  transmute(
+    Rank = rank,
+    Owner = Owner,
+    `Final Score` = adj_avg_rank,
+    `Base Avg Rank` = avg_rank,
+    Adjustment = adj
   ) %>%
-  arrange(adj_avg_rank)
+  arrange(Rank)
+
+cat('## Final Standings\n')
 
 reactable(
-  tbl,
+  summary_tbl,
+  searchable = FALSE,
+  pagination = FALSE,
+  defaultSorted = 'Rank',
+  bordered = TRUE,
+  striped = TRUE,
+  highlight = TRUE,
+  columns = list(
+    Rank = colDef(align = 'center', maxWidth = 80),
+    `Final Score` = colDef(align = 'right'),
+    `Base Avg Rank` = colDef(align = 'right'),
+    Adjustment = colDef(align = 'right')
+  ),
+  rowStyle = function(index) {
+    if (index == 1) list(fontWeight = 'bold') else NULL
+  }
+)
+
+cat('\n\n---\n\n')
+cat('## Breakdown\n')
+
+# --- Detailed breakdown table ---
+detail_tbl <- owner_sum_debug %>%
+  select(
+    rank, Owner, avg_rank, adj_avg_rank, adj,
+    titles, five_set_wins, grass_wins,
+    aces_per_service_point, dfs_per_service_point, bagels_surrendered,
+    adj_titles, adj_five_set, adj_grass, adj_aces, adj_bagels, adj_dfs
+  ) %>%
+  rename(
+    Rank = rank,
+    `Avg Rank` = avg_rank,
+    `Final Score` = adj_avg_rank,
+    `Total Adj` = adj,
+    Titles = titles,
+    `Five-Set Wins` = five_set_wins,
+    `Grass Wins` = grass_wins,
+    `Aces / SP` = aces_per_service_point,
+    `DFs / SP` = dfs_per_service_point,
+    `Bagels Surrendered` = bagels_surrendered,
+    `Adj: Titles` = adj_titles,
+    `Adj: Five-Set` = adj_five_set,
+    `Adj: Grass` = adj_grass,
+    `Adj: Aces` = adj_aces,
+    `Adj: Bagels` = adj_bagels,
+    `Adj: DFs` = adj_dfs
+  )
+
+reactable(
+  detail_tbl,
   searchable = TRUE,
-  defaultSorted = "adj_avg_rank",
-  defaultSortOrder = "asc",
+  defaultSorted = 'Final Score',
+  defaultSortOrder = 'asc',
   pagination = TRUE,
   highlight = TRUE,
   bordered = TRUE,
-  striped = TRUE
+  striped = TRUE,
+  columns = list(
+    Rank = colDef(align = 'center', maxWidth = 80),
+    Owner = colDef(minWidth = 120),
+    `Avg Rank` = colDef(align = 'right'),
+    `Final Score` = colDef(align = 'right'),
+    `Total Adj` = colDef(align = 'right'),
+    Titles = colDef(align = 'right'),
+    `Five-Set Wins` = colDef(align = 'right'),
+    `Grass Wins` = colDef(align = 'right'),
+    `Aces / SP` = colDef(align = 'right'),
+    `DFs / SP` = colDef(align = 'right'),
+    `Bagels Surrendered` = colDef(align = 'right')
+  )
 )
 ```
