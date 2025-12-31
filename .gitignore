@@ -1,0 +1,10 @@
+# R / Quarto source
+*.qmd
+*.rds
+.Rhistory
+.RData
+.Rproj.user/
+
+# OS junk
+.DS_Store
+Thumbs.db
