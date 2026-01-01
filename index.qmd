@@ -17,27 +17,6 @@ library(dplyr)
 library(reactable)
 library(bslib)
 
-# --- Row highlighting by Owner (robust across reactable versions) ---
-owner_row_style <- function(row) {
-  # row can be a list, data.frame (1 row), or atomic in some edge cases
-  owner <- NULL
-  if (is.list(row) && !is.null(row$Owner)) owner <- row$Owner
-  if (is.data.frame(row) && 'Owner' %in% names(row)) owner <- row[['Owner']][[1]]
-  if (is.null(owner) || length(owner) == 0) return(NULL)
-
-  if (owner == 'Ben') {
-    list(background = '#e3f2fd')
-  } else if (owner == 'Nick') {
-    list(background = '#e8f5e9')
-  } else if (owner == 'Austin') {
-    list(background = '#fdecea')
-  } else if (owner == 'Kev') {
-    list(background = '#fff9c4')
-  } else {
-    NULL
-  }
-}
-
 owner_sum_debug <- readRDS('owner_sum_debug.rds')
 
 # --- Top leaderboard summary ---
@@ -67,10 +46,8 @@ reactable(
     `Base Avg Rank` = colDef(align = 'right'),
     Adjustment = colDef(align = 'right')
   ),
-  rowStyle = function(row, index, ...) {
-    base <- owner_row_style(row)
-    bold <- if (!is.null(index) && length(index) == 1 && isTRUE(index == 1)) list(fontWeight = 'bold') else NULL
-    c(base, bold)
+  rowStyle = function(index) {
+    if (index == 1) list(fontWeight = 'bold') else NULL
   }
 )
 
@@ -113,7 +90,6 @@ reactable(
   highlight = TRUE,
   bordered = TRUE,
   striped = TRUE,
-  rowStyle = function(row, index, ...) owner_row_style(row),
   columns = list(
     Rank = colDef(align = 'center', maxWidth = 80),
     Owner = colDef(minWidth = 120),
@@ -145,7 +121,6 @@ reactable(
   striped = TRUE,
   defaultSorted = 'YTD Rank',
   defaultSortOrder = 'asc',
-  rowStyle = function(row, index, ...) owner_row_style(row),
   columns = list(
     Owner = colDef(minWidth = 110),
     Player = colDef(minWidth = 220),
