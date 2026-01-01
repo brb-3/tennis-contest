@@ -104,4 +104,38 @@ reactable(
     `Bagels Surrendered` = colDef(align = 'right')
   )
 )
+
+cat('\n\n---\n\n')
+cat('## Rosters\n')
+cat('Player-level stats by owner.\n\n')
+
+roster_tbl <- readRDS('roster_tbl.rds')
+
+reactable(
+  roster_tbl,
+  searchable = TRUE,
+  filterable = TRUE,
+  pagination = TRUE,
+  highlight = TRUE,
+  bordered = TRUE,
+  striped = TRUE,
+  defaultSorted = 'YTD Rank',
+  defaultSortOrder = 'asc',
+  columns = list(
+    Owner = colDef(minWidth = 110),
+    Player = colDef(minWidth = 220),
+    Range = colDef(minWidth = 90),
+    `YTD Rank` = colDef(align = 'right', maxWidth = 110),
+    Titles = colDef(align = 'right', maxWidth = 90),
+    `Five-Set Wins` = colDef(align = 'right', maxWidth = 120),
+    `Grass Wins` = colDef(align = 'right', maxWidth = 110),
+    `Bagels Surrendered` = colDef(align = 'right', minWidth = 140),
+    Aces = colDef(align = 'right', maxWidth = 90),
+    DFs = colDef(align = 'right', maxWidth = 90),
+    `Service Points` = colDef(align = 'right', minWidth = 130),
+    `Aces / SP` = colDef(align = 'right', maxWidth = 110),
+    `DFs / SP` = colDef(align = 'right', maxWidth = 110)
+  )
+)
+
 ```
