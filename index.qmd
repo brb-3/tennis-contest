@@ -30,7 +30,7 @@ summary_tbl <- owner_sum_debug %>%
   ) %>%
   arrange(Rank)
 
-cat('## Final Standings\n')
+cat('## Standings\n')
 
 reactable(
   summary_tbl,
@@ -52,7 +52,7 @@ reactable(
 )
 
 cat('\n\n---\n\n')
-cat('## Breakdown\n')
+cat('## Adjustment Breakdown\n')
 
 # --- Detailed breakdown table ---
 detail_tbl <- owner_sum_debug %>%
@@ -64,8 +64,8 @@ detail_tbl <- owner_sum_debug %>%
   ) %>%
   rename(
     Rank = rank,
-    `Avg Rank` = avg_rank,
     `Final Score` = adj_avg_rank,
+    `Base Avg Rank` = avg_rank,
     `Total Adj` = adj,
     Titles = titles,
     `Five-Set Wins` = five_set_wins,
@@ -93,7 +93,7 @@ reactable(
   columns = list(
     Rank = colDef(align = 'center', maxWidth = 80),
     Owner = colDef(minWidth = 120),
-    `Avg Rank` = colDef(align = 'right'),
+    `Base Avg Rank` = colDef(align = 'right'),
     `Final Score` = colDef(align = 'right'),
     `Total Adj` = colDef(align = 'right'),
     Titles = colDef(align = 'right'),
@@ -107,7 +107,7 @@ reactable(
 
 cat('\n\n---\n\n')
 cat('## Rosters\n')
-cat('Player-level stats by owner.\n\n')
+cat('Player-level stats\n\n')
 
 roster_tbl <- readRDS('roster_tbl.rds')
 
