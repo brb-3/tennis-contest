@@ -1,5 +1,5 @@
 ---
-title: "Owner Leaderboard"
+title: "Leaderboard"
 format:
   html:
     theme: cosmo
