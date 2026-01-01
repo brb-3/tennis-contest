@@ -115,7 +115,7 @@ reactable(
   roster_tbl,
   searchable = TRUE,
   filterable = TRUE,
-  pagination = TRUE,
+  pagination = FALSE,
   highlight = TRUE,
   bordered = TRUE,
   striped = TRUE,
