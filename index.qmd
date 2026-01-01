@@ -106,8 +106,8 @@ reactable(
 )
 
 cat('\n\n---\n\n')
-cat('## Rosters\n')
-cat('Player-level stats\n\n')
+cat('## Player-level Stats\n')
+cat('\n\n')
 
 roster_tbl <- readRDS('roster_tbl.rds')
 
